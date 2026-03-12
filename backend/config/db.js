@@ -4,13 +4,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const sequelize = new Sequelize(
-  "ai_mentor",     // database name
-  "postgres",      // username
-  "2004",
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    host: "localhost",
+    host: process.env.DB_HOST || "localhost",
     dialect: "postgres",
-    port: 5433,
+    port: process.env.DB_PORT || 5432,
     logging: false,
   }
 );
@@ -20,7 +20,7 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log("✅ PostgreSQL Connected successfully.");
   } catch (error) {
-    console.error("❌ PostgreSQL connection failed:", error);
+    console.error("❌ PostgreSQL connection failed:", error.message);
     process.exit(1);
   }
 };
